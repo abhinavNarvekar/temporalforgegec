@@ -79,23 +79,13 @@ def apply_custom_css():
     """, unsafe_allow_html=True)
 
 def render_gradient_header(title, subtitle=None):
-    """Render a gradient header with optional subtitle"""
+    """Render a gradient header (subtitle removed for Insights page)"""
     html = f"""
         <div style='text-align: center; padding: 2rem 0;'>
             <h1 style='font-size: 3.5rem; background: linear-gradient(135deg, #00D9FF 0%, #B794F6 50%, #FF6B9D 100%); 
-                       -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem;'>
-                {title}
-            </h1>
+                       -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem;'>{title}</h1>
+        </div>
     """
-    
-    if subtitle:
-        html += f"""
-            <p style='font-size: 1.2rem; color: #94a3b8; margin-bottom: 2rem;'>
-                {subtitle}
-            </p>
-        """
-    
-    html += "</div>"
     st.markdown(html, unsafe_allow_html=True)
 
 def render_feature_card(icon, title, description, color="balance"):
@@ -114,8 +104,7 @@ def render_feature_card(icon, title, description, color="balance"):
             '255, 107, 157' if color == 'human' else 
             '183, 148, 246'
         }, 0.1); 
-                    border-radius: 15px; margin: 1rem 0;'>
-            <div style='font-size: 3rem;'>{icon}</div>
+                    border-radius: 15px; margin: 1rem 0;'>{icon}</div>
             <div style='font-weight: bold; color: {card_color}; margin-top: 0.5rem;'>{title}</div>
             <div style='color: #94a3b8; font-size: 0.9rem;'>{description}</div>
         </div>
