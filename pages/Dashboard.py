@@ -1,9 +1,9 @@
-#  ==============================================================================
+# ==============================================================================
 # FILE 7: pages/3_📊_Dashboard.py
 # ==============================================================================
 
 """
-Dashboard Page
+Dashboard Page - Dark Full Page, No Sidebar
 """
 
 import streamlit as st
@@ -11,10 +11,29 @@ import plotly.graph_objects as go
 from utils.styling import apply_custom_css
 from utils.analysis import detect_anomalies
 
+# =========================
+# Page config & CSS
+# =========================
 st.set_page_config(page_title="Dashboard", page_icon="📊", layout="wide")
 apply_custom_css()
 
+# Hide sidebar menu & footer
+st.markdown(
+    """
+    <style>
+    /* Hide hamburger menu and footer */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    /* Full dark background */
+    .css-18e3th9 {background-color: #0f111a;}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# =========================
 # Check if analysis is complete
+# =========================
 if st.session_state.rhythm_score is None:
     st.error("No analysis results found. Please upload data first.")
     if st.button("← Back to Upload"):
@@ -24,16 +43,21 @@ if st.session_state.rhythm_score is None:
 results = st.session_state.rhythm_score
 merged_df = results['merged_data']
 
+# =========================
 # Header
+# =========================
 col1, col2 = st.columns([3, 1])
 with col1:
     st.markdown("""
-        <h1 style='background: linear-gradient(135deg, #00D9FF 0%, #FF6B9D 100%); 
+        <h1 style='background: linear-gradient(135deg, #00D9FF 0%, #FF6B9D 100%);
                    -webkit-background-clip: text; -webkit-text-fill-color: transparent;'>
             📊 Your Rhythm Dashboard
         </h1>
     """, unsafe_allow_html=True)
-    st.markdown(f"<p style='color: #94a3b8; font-size: 1.1rem;'>Analysis Period: {merged_df['date'].min().strftime('%b %d')} - {merged_df['date'].max().strftime('%b %d, %Y')}</p>", unsafe_allow_html=True)
+    st.markdown(
+        f"<p style='color: #94a3b8; font-size: 1.1rem;'>Analysis Period: {merged_df['date'].min().strftime('%b %d')} - {merged_df['date'].max().strftime('%b %d, %Y')}</p>",
+        unsafe_allow_html=True
+    )
 
 with col2:
     if st.button("📥 Export Report"):
@@ -47,10 +71,13 @@ with col2:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
+# =========================
 # Central Rhythm Score
+# =========================
 st.markdown("""
-    <div style='text-align: center; padding: 3rem; background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(255, 107, 157, 0.1) 100%); 
-                border-radius: 30px; margin-bottom: 2rem; box-shadow: 0 10px 40px rgba(183, 148, 246, 0.2);'>
+<div style='text-align: center; padding: 3rem; 
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(255, 107, 157, 0.1) 100%);
+            border-radius: 30px; margin-bottom: 2rem; box-shadow: 0 10px 40px rgba(183, 148, 246, 0.2);'>
 """, unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns([1, 2, 1])
@@ -119,7 +146,9 @@ with col2:
 
 st.markdown("</div>", unsafe_allow_html=True)
 
+# =========================
 # Stats Cards
+# =========================
 st.markdown("<br>", unsafe_allow_html=True)
 col1, col2, col3, col4 = st.columns(4)
 
@@ -152,15 +181,15 @@ with col4:
         delta=corr_status
     )
 
+# =========================
+# Main Chart and Alerts
+# =========================
 st.markdown("<br><br>", unsafe_allow_html=True)
-
-# Main Chart and Alerts Section
 col1, col2 = st.columns([2, 1])
 
 with col1:
     st.markdown("### 📈 Productivity vs Wellbeing Trends")
     
-    # Create dual-axis chart
     fig = go.Figure()
     
     fig.add_trace(go.Scatter(
@@ -197,7 +226,6 @@ with col1:
     
     st.plotly_chart(fig, use_container_width=True)
     
-    # AI Insight
     insight_type = 'success' if results['correlation'] > 0 else 'warning'
     if results['correlation'] < -0.3:
         insight_msg = f"Strong negative correlation detected. When work hours increase, mood tends to decrease by {abs(results['correlation']) * 100:.0f}%."
@@ -214,7 +242,6 @@ with col1:
 
 with col2:
     st.markdown("### 🚨 Active Alerts")
-    
     anomalies = detect_anomalies(merged_df)
     
     if not anomalies:
@@ -238,7 +265,9 @@ with col2:
     if st.button("💡 View Detailed Insights", key="view_insights"):
         st.switch_page("pages/Insights.py")
 
+# =========================
 # Additional visualizations
+# =========================
 st.markdown("<br><br>", unsafe_allow_html=True)
 col1, col2 = st.columns(2)
 
@@ -305,5 +334,3 @@ with col2:
     )
     
     st.plotly_chart(fig, use_container_width=True)
-
-
