@@ -100,7 +100,27 @@ def home_page():
         
         # Navigation message
         st.info("👈 Use the sidebar to navigate to **Upload Data** to get started!")
+        
+        # =============================
+        # Get Started Button
+        # =============================
+        st.markdown("""
+            <div style='text-align: center; margin-top: 3rem;'>
+                <a href="/Upload_Data" style='
+                    display: inline-block;
+                    padding: 1rem 2rem;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    color: white;
+                    background: linear-gradient(135deg, #00D9FF 0%, #B794F6 50%, #FF6B9D 100%);
+                    border-radius: 25px;
+                    text-decoration: none;
+                    transition: transform 0.2s ease;
+                ' onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                    🚀 Get Started
+                </a>
+            </div>
+        """, unsafe_allow_html=True)
 
 # Run home page
 home_page()
-
