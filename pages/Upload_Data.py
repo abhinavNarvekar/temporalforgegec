@@ -3,7 +3,7 @@
 # ==============================================================================
 
 """
-Data Upload Page
+Data Upload Page - Modern Rectangular Header Version
 """
 
 import streamlit as st
@@ -18,23 +18,37 @@ for key in ["work_data", "mood_data", "analysis_complete"]:
     if key not in st.session_state:
         st.session_state[key] = None
 
+# =========================
+# Page config & custom CSS
+# =========================
 st.set_page_config(page_title="Upload Data", page_icon="📤", layout="wide")
 apply_custom_css()
 
 # =========================
-# Page header
+# Page header as a modern rectangular card
 # =========================
 st.markdown("""
-    <h1 style='background: linear-gradient(135deg, #00D9FF 0%, #FF6B9D 100%); 
-               -webkit-background-clip: text; -webkit-text-fill-color: transparent;'>
-        📤 Upload Your Data
-    </h1>
-    <p style='font-size: 1.2rem; color: #94a3b8; margin-bottom: 2rem;'>
+<div style='
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem 2.5rem;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #00D9FF, #B794F6, #FF6B9D);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    text-align: center;
+    color: white;
+'>
+    <h1 style='font-size: 3rem; font-weight: 900; margin: 0;'>📤 Upload Your Data</h1>
+    <p style='font-size: 1.2rem; margin-top: 0.5rem; color: #f0f0f0; line-height: 1.5;'>
         Feed the rhythm with your productivity and wellbeing metrics
     </p>
+</div>
 """, unsafe_allow_html=True)
 
-col1, col2 = st.columns(2)
+# =========================
+# Upload columns
+# =========================
+col1, col2 = st.columns(2, gap="large")
 
 # =========================
 # Machine Productivity Upload
@@ -42,7 +56,8 @@ col1, col2 = st.columns(2)
 with col1:
     st.markdown("""
         <div style='padding: 1.5rem; background: rgba(0, 217, 255, 0.05); 
-                    border: 2px solid #00D9FF; border-radius: 20px; margin-bottom: 2rem;'>
+                    border: 2px solid #00D9FF; border-radius: 20px; margin-bottom: 2rem;
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.1); transition: transform 0.2s ease;'>
             <h3 style='color: #00D9FF;'>🤖 Machine Productivity</h3>
         </div>
     """, unsafe_allow_html=True)
@@ -84,7 +99,8 @@ date,work_hours,tasks_completed,server_uptime
 with col2:
     st.markdown("""
         <div style='padding: 1.5rem; background: rgba(255, 107, 157, 0.05); 
-                    border: 2px solid #FF6B9D; border-radius: 20px; margin-bottom: 2rem;'>
+                    border: 2px solid #FF6B9D; border-radius: 20px; margin-bottom: 2rem;
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.1); transition: transform 0.2s ease;'>
             <h3 style='color: #FF6B9D;'>❤️ Human Wellbeing</h3>
         </div>
     """, unsafe_allow_html=True)
