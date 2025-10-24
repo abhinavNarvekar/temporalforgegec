@@ -11,9 +11,19 @@ import pandas as pd
 from utils.styling import apply_custom_css
 from utils.analysis import validate_csv_format, generate_sample_data
 
+# =========================
+# ✅ Initialize session variables safely
+# =========================
+for key in ["work_data", "mood_data", "analysis_complete"]:
+    if key not in st.session_state:
+        st.session_state[key] = None
+
 st.set_page_config(page_title="Upload Data", page_icon="📤", layout="wide")
 apply_custom_css()
 
+# =========================
+# Page header
+# =========================
 st.markdown("""
     <h1 style='background: linear-gradient(135deg, #00D9FF 0%, #FF6B9D 100%); 
                -webkit-background-clip: text; -webkit-text-fill-color: transparent;'>
@@ -26,7 +36,9 @@ st.markdown("""
 
 col1, col2 = st.columns(2)
 
+# =========================
 # Machine Productivity Upload
+# =========================
 with col1:
     st.markdown("""
         <div style='padding: 1.5rem; background: rgba(0, 217, 255, 0.05); 
@@ -66,7 +78,9 @@ date,work_hours,tasks_completed,server_uptime
         except Exception as e:
             st.error(f"❌ Error reading file: {str(e)}")
 
+# =========================
 # Human Wellbeing Upload
+# =========================
 with col2:
     st.markdown("""
         <div style='padding: 1.5rem; background: rgba(255, 107, 157, 0.05); 
@@ -106,7 +120,9 @@ date,mood_score,stress_level,sleep_hours
         except Exception as e:
             st.error(f"❌ Error reading file: {str(e)}")
 
+# =========================
 # Analyze button
+# =========================
 st.markdown("<br>", unsafe_allow_html=True)
 
 if st.session_state.work_data is not None and st.session_state.mood_data is not None:
@@ -118,7 +134,9 @@ if st.session_state.work_data is not None and st.session_state.mood_data is not 
 else:
     st.warning("⚠️ Please upload both CSV files to proceed with analysis")
 
+# =========================
 # Sample data option
+# =========================
 st.markdown("<br><br>", unsafe_allow_html=True)
 with st.expander("🎲 Don't have data? Use sample dataset"):
     if st.button("Load Sample Data"):
@@ -127,4 +145,3 @@ with st.expander("🎲 Don't have data? Use sample dataset"):
         st.session_state.mood_data = mood_data
         st.success("✅ Sample data loaded! Click 'Analyze Rhythm' to continue.")
         st.rerun()
-
